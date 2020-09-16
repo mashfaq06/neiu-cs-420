@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation "org.junit.jupiter:junit-jupiter-engine:5.6.2"
+    implementation "org.junit.jupiter:junit-jupiter-api:5.6.2"
+    implementation "org.mockito:mockito-core:3.5.7"
+    implementation "org.mockito:mockito-junit-jupiter:3.5.7"
+    implementation "javax.ws.rs:javax.ws.rs-api:2.1.1"
+    implementation "com.googlecode.json-simple:json-simple:1.1.1"
+}
