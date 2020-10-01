@@ -2,6 +2,7 @@ package BlueFridayApp;
 
 import api.DataAPI;
 import api.WriteData;
+
 import java.io.InputStream;
 import java.net.URISyntaxException;
 
@@ -21,5 +22,6 @@ public class Main {
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+
     }
 }
