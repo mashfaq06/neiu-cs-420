@@ -48,20 +48,24 @@ public class WriteData extends CreatePath {
         return holidayArray;
     }
 
-    public void exportData(String country, int year) throws IOException, ParseException {
+    public void exportData() throws IOException, ParseException {
         JSONArray holidayArray = obtainData(this.is);
-        //bw.write("There are " + holidayArray.size() + " holidays in " + country + " for the year " + year + "\n");
         for(Object r: holidayArray)
         {
-            JSONObject result = (JSONObject) r;
-            JSONObject weekday = (JSONObject) result.get("weekday");
-            JSONObject day = (JSONObject) weekday.get("date");
-            //bw.write( result.get("name") +" is on "+ day.get("name") + "\n");
-            bw.write(result.get("date") + " " + result.get("name") + ":" + day.get("name") + "\n");
+            String data = getData(r);
+            bw.write(data);
         }
         bw.flush();
         bw.close();
     }
 
+    public String getData(Object r)
+    {
+        JSONObject result = (JSONObject) r;
+        JSONObject weekday = (JSONObject) result.get("weekday");
+        JSONObject day = (JSONObject) weekday.get("date");
+        String data = result.get("date") + " " + result.get("name") + ":" + day.get("name") + "\n";
+        return data;
+    }
 
 }

@@ -1,5 +1,8 @@
 package BlueFridayFX;
 
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -8,7 +11,7 @@ public class ConvertToCollections {
 
     private static List<Holiday> holiday;
 
-    public static List<Holiday> getHoliday() throws Exception {
+    public static List<Holiday> getHoliday() throws IOException, ParseException {
         String readData = ReadDataFromFile.readData();
         holiday = new ArrayList<>();
         int length = readData.split("\n").length;
@@ -19,45 +22,33 @@ public class ConvertToCollections {
         return holiday;
     }
 
-    public static Map<String,List<Holiday>> getMonthlyHoliday() throws Exception {
-        Map<String,List<Holiday>> monthly = new HashMap<>();
+    public static Map<Months,List<Holiday>> getMonthlyHoliday() throws IOException, ParseException {
+        Map<Months,List<Holiday>> monthly = new HashMap<>();
         for(Holiday h : getHoliday())
-        {
-            for(int i=0;i<=12;i++)
-            {
-                if(h.getDate().getMonthValue() == i)
-                {
-                    addToMap(h.getDate().getMonth().toString(),h,monthly);
-                }
-            }
-        }
+            for(Months m : Months.values())
+                if(h.getDate().getMonthValue() == m.getMonthNo())
+                    addMonthsToMap(m,h,monthly);
         return monthly;
     }
 
-    public static Map<String,List<Holiday>> getDaysHoliday() throws Exception
-    {
-        Map<String,List<Holiday>> weekly = new HashMap<>();
+    public static Map<Days,List<Holiday>> getDaysHoliday() throws IOException, ParseException {
+        Map<Days,List<Holiday>> days = new HashMap<>();
         for(Holiday h : getHoliday())
-        {
-            if(h.getDay().equals("Monday"))
-                addToMap("Monday",h,weekly);
-            if(h.getDay().equals("Tuesday"))
-                addToMap("Tuesday",h,weekly);
-            if(h.getDay().equals("Wednesday"))
-                addToMap("Wednesday",h,weekly);
-            if(h.getDay().equals("Thursday"))
-                addToMap("Thursday",h,weekly);
-            if(h.getDay().equals("Friday"))
-                addToMap("Friday",h,weekly);
-            if(h.getDay().equals("Saturday"))
-                addToMap("Saturday",h,weekly);
-            if(h.getDay().equals("Sunday"))
-                addToMap("Sunday",h,weekly);
-        }
-        return weekly;
+            for(Days names: Days.values())
+                if(h.getDay().equals(names.getDayName()))
+                    addDaysToMap(names,h,days);
+        return days;
     }
 
-    private static void addToMap(String key, Holiday holiday, Map<String,List<Holiday>> map)
+    private static void addMonthsToMap(Months key, Holiday holiday, Map<Months,List<Holiday>> map)
+    {
+        if(!map.containsKey(key))
+            map.put(key,new ArrayList<>(Arrays.asList(holiday)));
+        else
+            map.get(key).add(holiday);
+    }
+
+    private static void addDaysToMap(Days key, Holiday holiday, Map<Days,List<Holiday>> map)
     {
         if(!map.containsKey(key))
             map.put(key,new ArrayList<>(Arrays.asList(holiday)));

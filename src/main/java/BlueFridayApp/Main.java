@@ -14,7 +14,7 @@ public class Main {
             DataAPI dApi = new DataAPI("US", 2019);
             InputStream JSON = dApi.makeConnection();
             WriteData wp = new WriteData("JSONData.txt",JSON);
-            wp.exportData(dApi.country,dApi.year);
+            wp.exportData();
         }
         catch (URISyntaxException e)
         {

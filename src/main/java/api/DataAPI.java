@@ -21,14 +21,14 @@ public class DataAPI {
         this.year = year;
     }
 
-    public InputStream makeConnection() throws Exception {
+    public InputStream makeConnection() throws IOException {
         getHolidayURL();
         getResponse(this.url);
         if(connection.getResponseCode() == 200) {
             return connection.getInputStream();
         }
         else
-            throw new Exception();
+            throw new IOException();
     }
 
     private void getHolidayURL()
