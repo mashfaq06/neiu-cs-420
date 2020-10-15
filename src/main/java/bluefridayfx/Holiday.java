@@ -1,4 +1,4 @@
-package BlueFridayFX;
+package bluefridayfx;
 
 import java.time.LocalDate;
 import java.util.*;

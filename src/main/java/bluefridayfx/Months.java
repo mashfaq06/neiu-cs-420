@@ -1,4 +1,4 @@
-package BlueFridayFX;
+package bluefridayfx;
 
 public enum Months {
 
@@ -10,8 +10,8 @@ public enum Months {
     JUNE(6,"June"),
     JULY(7,"July"),
     AUGUST(8,"August"),
-    SEPTEMBER(9,"September"),
     OCTOBER(10,"October"),
+    SEPTEMBER(9,"September"),
     NOVEMBER(11,"November"),
     DECEMBER(12,"December");
 

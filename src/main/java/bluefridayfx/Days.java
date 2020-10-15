@@ -1,4 +1,4 @@
-package BlueFridayFX;
+package bluefridayfx;
 
 public enum Days {
 

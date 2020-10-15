@@ -1,4 +1,4 @@
-package BlueFridayApp;
+package bluefridayapp;
 
 import api.DataAPI;
 import api.WriteData;

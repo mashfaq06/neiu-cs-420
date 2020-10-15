@@ -1,4 +1,4 @@
-package BlueFridayFX;
+package bluefridayfx;
 
 import api.DataAPI;
 import api.WriteData;
@@ -11,6 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ReadDataFromFile {
+
+    private ReadDataFromFile(){}
 
     private static final String fileName = "JSONData.txt";
 

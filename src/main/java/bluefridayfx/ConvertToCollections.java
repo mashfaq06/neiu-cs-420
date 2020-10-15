@@ -1,4 +1,4 @@
-package BlueFridayFX;
+package bluefridayfx;
 
 import org.json.simple.parser.ParseException;
 
@@ -10,6 +10,8 @@ import java.util.*;
 public class ConvertToCollections {
 
     private static List<Holiday> holiday;
+
+    private ConvertToCollections(){}
 
     public static List<Holiday> getHoliday() throws IOException, ParseException {
         String readData = ReadDataFromFile.readData();
