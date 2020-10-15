@@ -1,4 +1,4 @@
-import bluefridayfx.*;
+import bluefridayfx.models.Holiday;
 import bluefridayfx.view.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;

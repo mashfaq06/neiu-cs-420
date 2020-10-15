@@ -1,4 +1,4 @@
-package bluefridayfx;
+package bluefridayfx.models;
 
 import org.json.simple.parser.ParseException;
 

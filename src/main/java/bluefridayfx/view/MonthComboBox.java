@@ -1,7 +1,7 @@
 package bluefridayfx.view;
 
-import bluefridayfx.Holiday;
-import bluefridayfx.Months;
+import bluefridayfx.models.Holiday;
+import bluefridayfx.models.Months;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -19,7 +19,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import static bluefridayfx.ConvertToCollections.getMonthlyHoliday;
+import static bluefridayfx.models.ConvertToCollections.getMonthlyHoliday;
 import static javafx.collections.FXCollections.observableArrayList;
 
 public class MonthComboBox {

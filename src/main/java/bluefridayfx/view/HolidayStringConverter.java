@@ -1,12 +1,12 @@
 package bluefridayfx.view;
 
-import bluefridayfx.Holiday;
+import bluefridayfx.models.Holiday;
 import javafx.util.StringConverter;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 
-import static bluefridayfx.ConvertToCollections.getHoliday;
+import static bluefridayfx.models.ConvertToCollections.getHoliday;
 
 public class HolidayStringConverter extends StringConverter<Holiday>
 {

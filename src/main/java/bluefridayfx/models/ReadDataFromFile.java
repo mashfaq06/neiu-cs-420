@@ -1,4 +1,4 @@
-package bluefridayfx;
+package bluefridayfx.models;
 
 import api.DataAPI;
 import api.WriteData;
