@@ -1,7 +1,13 @@
 package bluefridayfx.models;
 
+import javafx.util.StringConverter;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
+
+import static bluefridayfx.models.ConvertToCollections.getHoliday;
 
 public class Holiday {
     private LocalDate date;
@@ -48,6 +54,34 @@ public class Holiday {
     @Override
     public int hashCode() {
         return Objects.hash(date, name, day);
+    }
+
+    public static class HolidayStringConverter extends StringConverter<Holiday>
+    {
+
+        @Override
+        public String toString(Holiday holiday) {
+            if(holiday == null)
+                return null;
+            else
+                return holiday.getName();
+        }
+
+        @Override
+        public Holiday fromString(String string) {
+            try {
+                for(Holiday holiday: getHoliday())
+                {
+                    if(holiday.getName().equals(string))
+                        return holiday;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
 }

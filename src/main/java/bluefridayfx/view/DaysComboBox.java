@@ -55,7 +55,7 @@ public class DaysComboBox{
         daysComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
                 Days dayName = daysComboBox.getSelectionModel().getSelectedItem();
                 ObservableList<Holiday> listOfDayHolidays = observableArrayList(daysMap.get(dayName));
-                daysListView.setCellFactory(TextFieldListCell.forListView(new HolidayStringConverter()));
+                daysListView.setCellFactory(TextFieldListCell.forListView((new Holiday.HolidayStringConverter())));
                 daysListView.setItems(listOfDayHolidays);
                 createListListener();
         });

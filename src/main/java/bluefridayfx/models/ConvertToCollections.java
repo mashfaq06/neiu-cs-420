@@ -26,22 +26,30 @@ public class ConvertToCollections {
 
     public static Map<Months,List<Holiday>> getMonthlyHoliday() throws IOException, ParseException {
         Map<Months,List<Holiday>> monthly = new HashMap<>();
-        for(Holiday h : getHoliday())
-            for(Months m : Months.values())
-                if(h.getDate().getMonthValue() == m.getMonthNo())
-                    addMonthsToMap(m,h,monthly);
+        getHoliday().forEach(h -> {placeHolidaysInMonthCategory(monthly, h);});
         return monthly;
+    }
+
+    private static void placeHolidaysInMonthCategory(Map<Months, List<Holiday>> monthly, Holiday h) {
+        Arrays.asList(Months.values()).forEach(months -> {
+            if(h.getDate().getMonthValue() == months.getMonthNo())
+                addMonthsToMap(months, h, monthly);
+        });
     }
 
     public static Map<Days,List<Holiday>> getDaysHoliday() throws IOException, ParseException {
         Map<Days,List<Holiday>> days = new HashMap<>();
-        for(Holiday h : getHoliday())
-            for(Days names: Days.values())
-                if(h.getDay().equals(names.getDayName()))
-                    addDaysToMap(names,h,days);
+        getHoliday().forEach(h -> {placeHolidayInDaysCategory(days, h);});
         return days;
     }
 
+    private static void placeHolidayInDaysCategory(Map<Days, List<Holiday>> days, Holiday h) {
+        Arrays.asList(Days.values()).forEach(day -> {
+            if(h.getDay().equals(day.getDayName()))
+            addDaysToMap(day, h, days);
+        });
+    }
+    
     private static void addMonthsToMap(Months key, Holiday holiday, Map<Months,List<Holiday>> map)
     {
         if(!map.containsKey(key))

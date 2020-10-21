@@ -63,7 +63,7 @@ public class MonthComboBox {
             public void changed(ObservableValue<? extends Months> observable, Months oldValue, Months newValue) {
                     Months monthName = monthsComboBox.getSelectionModel().getSelectedItem();
                     ObservableList<Holiday> listOfMonthlyHoliday = observableArrayList(monthMap.get(monthName));
-                    monthsListView.setCellFactory(TextFieldListCell.forListView(new HolidayStringConverter()));
+                    monthsListView.setCellFactory(TextFieldListCell.forListView(new Holiday.HolidayStringConverter()));
                     monthsListView.setItems(listOfMonthlyHoliday);
                     createListListener();
             }
