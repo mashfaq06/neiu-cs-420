@@ -20,9 +20,8 @@ public class ReadDataFromFile {
         Path path = getFile();
         BufferedReader br = Files.newBufferedReader(path);
         StringBuilder data = new StringBuilder();
-        while (br.ready()) {
-            data.append((char)br.read());
-        }
+        while (br.ready())
+            data.append((char) br.read());
         return data.toString();
     }
 

@@ -5,7 +5,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Objects;
 
 import static bluefridayfx.models.ConvertToCollections.getHoliday;
 
@@ -75,9 +75,7 @@ public class Holiday {
                     if(holiday.getName().equals(string))
                         return holiday;
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
+            } catch (ParseException | IOException e) {
                 e.printStackTrace();
             }
             return null;

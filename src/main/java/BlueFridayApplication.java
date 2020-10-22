@@ -1,5 +1,6 @@
 import bluefridayfx.models.Holiday;
-import bluefridayfx.view.*;
+import bluefridayfx.view.DaysComboBox;
+import bluefridayfx.view.MonthComboBox;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

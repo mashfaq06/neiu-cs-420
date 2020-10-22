@@ -2,8 +2,6 @@ package bluefridayfx.view;
 
 import bluefridayfx.models.Holiday;
 import bluefridayfx.models.Months;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -15,7 +13,6 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -58,43 +55,34 @@ public class MonthComboBox {
     }
 
     private void createMonthListener() {
-        monthsComboBox.valueProperty().addListener(new ChangeListener<Months>() {
-            @Override
-            public void changed(ObservableValue<? extends Months> observable, Months oldValue, Months newValue) {
-                    Months monthName = monthsComboBox.getSelectionModel().getSelectedItem();
-                    ObservableList<Holiday> listOfMonthlyHoliday = observableArrayList(monthMap.get(monthName));
-                    monthsListView.setCellFactory(TextFieldListCell.forListView(new Holiday.HolidayStringConverter()));
-                    monthsListView.setItems(listOfMonthlyHoliday);
-                    createListListener();
-            }
+        monthsComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+                Months monthName = monthsComboBox.getSelectionModel().getSelectedItem();
+                ObservableList<Holiday> listOfMonthlyHoliday = observableArrayList(monthMap.get(monthName));
+                monthsListView.setCellFactory(TextFieldListCell.forListView(new Holiday.HolidayStringConverter()));
+                monthsListView.setItems(listOfMonthlyHoliday);
+                createListListener();
         });
     }
     private void createListListener()
     {
-        monthsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Holiday>() {
-            @Override
-            public void changed(ObservableValue<? extends Holiday> observable, Holiday oldValue, Holiday newValue) {
-                    if(newValue != null) {
-                        String text = newValue.getName() + " is on " + newValue.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)) + " which falls on " + newValue.getDay();
-                        textBox.setText(text);
-                        textBox.setVisible(true);
-                    }
-            }
+        monthsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if(newValue != null) {
+                    String text = newValue.getName() + " is on " + newValue.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)) + " which falls on " + newValue.getDay();
+                    textBox.setText(text);
+                    textBox.setVisible(true);
+                }
         });
     }
 
     private ObservableList<Months> sortMonths()
     {
-        return monthCategories.sorted(new Comparator<Months>() {
-            @Override
-            public int compare(Months o1, Months o2) {
-                if(o1.getMonthNo() > o2.getMonthNo())
-                    return 1;
-                else if(o1.getMonthNo() < o2.getMonthNo())
-                    return -1;
-                else
-                    return 0;
-            }
+        return monthCategories.sorted((o1, o2) -> {
+            if(o1.getMonthNo() > o2.getMonthNo())
+                return 1;
+            else if(o1.getMonthNo() < o2.getMonthNo())
+                return -1;
+            else
+                return 0;
         });
     }
 

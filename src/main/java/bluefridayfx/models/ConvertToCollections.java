@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class ConvertToCollections {
 
@@ -17,10 +18,7 @@ public class ConvertToCollections {
         String readData = ReadDataFromFile.readData();
         holiday = new ArrayList<>();
         int length = readData.split("\n").length;
-        for(int i=0;i<length;i++)
-        {
-            insertData(i,readData);
-        }
+        IntStream.range(0, length).forEach(i -> insertData(i, readData));
         return holiday;
     }
 
