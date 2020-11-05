@@ -1,14 +1,17 @@
 package api;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import netscape.javascript.JSObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WriteData extends CreatePath {
     private final BufferedWriter bw;
@@ -40,32 +43,34 @@ public class WriteData extends CreatePath {
         return bw;
     }
 
-    private JSONArray obtainData (InputStream is) throws IOException, ParseException {
+    private List<JSONObject> obtainData (InputStream is) throws IOException {
         final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
-        JSONParser parser = new JSONParser();
-        JSONObject response = (JSONObject) parser.parse(bufferedReader.readLine());
-        JSONArray holidayArray = (JSONArray) response.get("holidays");
-        return holidayArray;
+        Stream<String> lines = bufferedReader.lines();
+        return lines.map(line -> new JSONObject(line).getJSONArray("holidays"))
+                    .map(jsonArray -> {
+                        List<JSONObject> data = new ArrayList<>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            data.add(jsonArray.getJSONObject(i));
+                        }
+                        return data;
+                    })
+                .flatMap(list -> list.stream())
+                .collect(Collectors.toList());
     }
 
-    public void exportData() throws IOException, ParseException {
-        JSONArray holidayArray = obtainData(this.is);
-        for(Object r: holidayArray)
-        {
-            String data = getData(r);
-            bw.write(data);
-        }
+    public void exportData() throws IOException {
+        getData(obtainData(this.is));
         bw.flush();
         bw.close();
     }
 
-    public String getData(Object r)
-    {
-        JSONObject result = (JSONObject) r;
-        JSONObject weekday = (JSONObject) result.get("weekday");
-        JSONObject day = (JSONObject) weekday.get("date");
-        String data = result.get("date") + " " + result.get("name") + ":" + day.get("name") + "\n";
-        return data;
+    public void getData(List<JSONObject> array) throws IOException {
+        List<String> name = array.stream().map(data -> data.get("name").toString()).collect(Collectors.toList());
+        List<String> date = array.stream().map(data -> data.get("date").toString()).collect(Collectors.toList());
+        List<String> day = array.stream().map(data -> data.getJSONObject("weekday").getJSONObject("date").get("name").toString()).collect(Collectors.toList());
+        for (int i = 0; i < name.stream().count(); i++) {
+            bw.write(date.get(i) + " " + name.get(i) + ":" + day.get(i) + "\n");
+        }
     }
 
 }

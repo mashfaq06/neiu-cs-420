@@ -7,7 +7,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.text.Text;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
@@ -29,7 +28,7 @@ public class MonthComboBox {
     private Text textBox;
 
 
-    public MonthComboBox() throws IOException, ParseException {
+    public MonthComboBox() throws IOException {
         monthMap = getMonthlyHoliday();
         textBox = new Text();
         addDataToList();

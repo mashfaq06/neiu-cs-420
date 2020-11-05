@@ -1,6 +1,5 @@
 package bluefridayfx.models;
 
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -14,7 +13,7 @@ public class ConvertToCollections {
 
     private ConvertToCollections(){}
 
-    public static List<Holiday> getHoliday() throws IOException, ParseException {
+    public static List<Holiday> getHoliday() throws IOException {
         String readData = ReadDataFromFile.readData();
         holiday = new ArrayList<>();
         int length = readData.split("\n").length;
@@ -22,7 +21,7 @@ public class ConvertToCollections {
         return holiday;
     }
 
-    public static Map<Months,List<Holiday>> getMonthlyHoliday() throws IOException, ParseException {
+    public static Map<Months,List<Holiday>> getMonthlyHoliday() throws IOException {
         Map<Months,List<Holiday>> monthly = new HashMap<>();
         getHoliday().forEach(h -> {placeHolidaysInMonthCategory(monthly, h);});
         return monthly;
@@ -35,7 +34,7 @@ public class ConvertToCollections {
         });
     }
 
-    public static Map<Days,List<Holiday>> getDaysHoliday() throws IOException, ParseException {
+    public static Map<Days,List<Holiday>> getDaysHoliday() throws IOException {
         Map<Days,List<Holiday>> days = new HashMap<>();
         getHoliday().forEach(h -> {placeHolidayInDaysCategory(days, h);});
         return days;
@@ -74,7 +73,7 @@ public class ConvertToCollections {
 
     private static LocalDate convertToDate(String sDate) {
         DateTimeFormatter fromFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate newDate = LocalDate.parse(sDate,fromFormat);
+        LocalDate newDate = LocalDate.parse(sDate.trim(),fromFormat);
         return newDate;
     }
 

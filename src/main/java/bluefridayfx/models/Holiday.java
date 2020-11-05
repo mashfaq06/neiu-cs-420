@@ -1,11 +1,12 @@
 package bluefridayfx.models;
 
 import javafx.util.StringConverter;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static bluefridayfx.models.ConvertToCollections.getHoliday;
 
@@ -13,6 +14,7 @@ public class Holiday {
     private LocalDate date;
     private String name;
     private String day;
+    private String type;
 
     public Holiday(LocalDate date, String name, String day) {
         this.date = date;
@@ -69,16 +71,16 @@ public class Holiday {
 
         @Override
         public Holiday fromString(String string) {
+            List<Holiday> holidayList = null;
             try {
-                for(Holiday holiday: getHoliday())
-                {
-                    if(holiday.getName().equals(string))
-                        return holiday;
-                }
-            } catch (ParseException | IOException e) {
+                holidayList = getHoliday().stream()
+                                        .filter(holiday -> holiday.getName().equals(string))
+                                        .limit(1)
+                                        .collect(Collectors.toList());
+            } catch ( IOException e) {
                 e.printStackTrace();
             }
-            return null;
+            return holidayList.isEmpty() ? null : holidayList.get(0);
         }
     }
 
