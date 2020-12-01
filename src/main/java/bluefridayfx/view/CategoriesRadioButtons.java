@@ -43,7 +43,7 @@ public class CategoriesRadioButtons {
     private void setCategoriesRadioButtonHBox()
     {
         categoriesHBox = new HBox();
-        categoriesHBox.getChildren().addAll(rb1,rb3,rb2, graphicRadioButton);
+        categoriesHBox.getChildren().addAll(rb1, rb2, rb3, graphicRadioButton);
         categoriesHBox.setPadding(new Insets(10,0,0,0));
         categoriesHBox.setAlignment(Pos.TOP_CENTER);
         categoriesHBox.setSpacing(25);

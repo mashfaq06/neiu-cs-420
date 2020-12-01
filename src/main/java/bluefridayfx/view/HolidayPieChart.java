@@ -37,7 +37,7 @@ public class HolidayPieChart {
             monthData[i] = new PieChart.Data(month, daysList.stream().filter(days -> days.getDate().getMonth().toString().equals(month)).count());
         });
         monthPieChart = new PieChart(FXCollections.observableArrayList(monthData));
-        monthPieChart.setTitle("Displaying data of Month");
+        monthPieChart.setTitle("Displaying data of Months");
     }
 
     public PieChart getMonthPieChart() {

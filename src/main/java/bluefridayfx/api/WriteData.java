@@ -29,7 +29,7 @@ public class WriteData extends CreateFileFromAPI {
     }
 
     private BufferedWriter createBufferedWriter(Path path) throws IOException {
-        BufferedWriter bw = Files.newBufferedWriter(path, StandardOpenOption.CREATE ,StandardOpenOption.APPEND);
+        BufferedWriter bw = Files.newBufferedWriter(path, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         return bw;
     }
 
