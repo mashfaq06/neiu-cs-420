@@ -7,23 +7,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.IntStream;
 
-public class ConvertToCollections {
+public class ConvertToCollectionsForHolidayData {
 
     private static List<Holiday> holiday;
 
-    private ConvertToCollections(){}
+    private ConvertToCollectionsForHolidayData(){}
 
     public static List<Holiday> getHoliday() throws IOException {
-        String readData = ReadDataFromFile.readData();
+        String readData = ReadDataFromFile.readHolidayData();
         holiday = new ArrayList<>();
         int length = readData.split("\n").length;
-        IntStream.range(0, length).forEach(i -> insertData(i, readData));
+        IntStream.range(0, length).forEach(i -> insertDataInHoliday(i, readData));
         return holiday;
     }
 
     public static Map<Months,List<Holiday>> getMonthlyHoliday() throws IOException {
         Map<Months,List<Holiday>> monthly = new HashMap<>();
-        getHoliday().forEach(h -> {placeHolidaysInMonthCategory(monthly, h);});
+        getHoliday().forEach(h -> placeHolidaysInMonthCategory(monthly, h));
         return monthly;
     }
 
@@ -63,7 +63,7 @@ public class ConvertToCollections {
             map.get(key).add(holiday);
     }
 
-    private static void insertData(int i, String readData)
+    private static void insertDataInHoliday(int i, String readData)
     {
         LocalDate date = convertToDate(readData.split("\n")[i].split(" ",2)[0]);
         String name = readData.split("\n")[i].split(" ",2)[1].split(":")[0];

@@ -5,20 +5,18 @@ import bluefridayfx.models.Holiday;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static bluefridayfx.models.ConvertToCollections.getDaysHoliday;
+import static bluefridayfx.models.ConvertToCollectionsForHolidayData.getDaysHoliday;
+import static bluefridayfx.view.FXHelper.createComboListener;
 import static javafx.collections.FXCollections.observableArrayList;
 
-public class DaysComboBox{
+public class DaysComboBox implements HolidayComboBoxes{
     private ComboBox<Days> daysComboBox;
     private Map<Days, List<Holiday>> daysMap;
     private ObservableList<Days> daysCategories;
@@ -31,44 +29,23 @@ public class DaysComboBox{
         textBox = new Text();
         addDataToList();
         daysCategories = observableArrayList(daysList);
-        setDaysComboBox();
+        setComboBoxData();
     }
 
-    private void addDataToList() {
+    public void addDataToList() {
         daysList = new ArrayList<>();
         for (Map.Entry<Days, List<Holiday>> h : daysMap.entrySet())
             daysList.add(h.getKey());
     }
 
-    private void setDaysComboBox() {
+    public void setComboBoxData() {
         daysListView = new ListView<>();
         daysComboBox = new ComboBox<>();
         daysComboBox.setPromptText("--Select Days--");
         daysComboBox.getItems().clear();
         daysComboBox.getItems().addAll(sortDays());
         daysComboBox.getSelectionModel().clearSelection();
-        createDayListener();
-    }
-
-    private void createDayListener() {
-        daysComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-                Days dayName = daysComboBox.getSelectionModel().getSelectedItem();
-                ObservableList<Holiday> listOfDayHolidays = observableArrayList(daysMap.get(dayName));
-                daysListView.setCellFactory(TextFieldListCell.forListView((new Holiday.HolidayStringConverter())));
-                daysListView.setItems(listOfDayHolidays);
-                createListListener();
-        });
-    }
-
-    private void createListListener()
-    {
-        daysListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                if(newValue != null) {
-                    String text = newValue.getName() + " is on " + newValue.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)) + " which falls on " + newValue.getDay();
-                    textBox.setText(text);
-                    textBox.setVisible(true);
-                }
-        });
+        createComboListener(daysComboBox,daysListView,daysMap,textBox);
     }
 
     private ObservableList<Days> sortDays()

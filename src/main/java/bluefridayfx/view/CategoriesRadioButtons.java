@@ -6,14 +6,17 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 
+import java.io.IOException;
+
 public class CategoriesRadioButtons {
 
-    private RadioButton rb1,rb2,rb3;
+    private RadioButton rb1,rb2,rb3, graphicRadioButton;
     private ToggleGroup tg;
     private HBox categoriesHBox;
+    private QueryRadioButtons query;
 
-    public CategoriesRadioButtons()
-    {
+    public CategoriesRadioButtons() throws IOException {
+        query = new QueryRadioButtons();
         tg = new ToggleGroup();
         initializeRadioButton();
         setCategoriesRadioButtonHBox();
@@ -22,19 +25,25 @@ public class CategoriesRadioButtons {
 
     private void initializeRadioButton()
     {
-        rb1 = new RadioButton("Categories by Days");
-        rb2 = new RadioButton("Categories by Months");
-        rb3 = new RadioButton("Switch to Graphical data");
+        rb1 = new RadioButton("Show all the data\ncategorised by Days");
+        rb2 = new RadioButton("Show all the data\ncategorised by Months");
+        rb3 = new RadioButton("Querying data by Days");
+        graphicRadioButton = new RadioButton("Switch to Graphical data");
+        addRadioButtonToToggleGroup();
+    }
+
+    private void addRadioButtonToToggleGroup() {
         tg = new ToggleGroup();
         rb1.setToggleGroup(tg);
         rb2.setToggleGroup(tg);
         rb3.setToggleGroup(tg);
+        graphicRadioButton.setToggleGroup(tg);
     }
 
     private void setCategoriesRadioButtonHBox()
     {
         categoriesHBox = new HBox();
-        categoriesHBox.getChildren().addAll(rb1,rb2,rb3);
+        categoriesHBox.getChildren().addAll(rb1,rb3,rb2, graphicRadioButton);
         categoriesHBox.setPadding(new Insets(10,0,0,0));
         categoriesHBox.setAlignment(Pos.TOP_CENTER);
         categoriesHBox.setSpacing(25);
@@ -59,4 +68,5 @@ public class CategoriesRadioButtons {
     public RadioButton getRb3() {
         return rb3;
     }
+
 }

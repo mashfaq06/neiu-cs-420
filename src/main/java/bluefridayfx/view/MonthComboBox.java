@@ -5,20 +5,18 @@ import bluefridayfx.models.Months;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static bluefridayfx.models.ConvertToCollections.getMonthlyHoliday;
+import static bluefridayfx.models.ConvertToCollectionsForHolidayData.getMonthlyHoliday;
 import static javafx.collections.FXCollections.observableArrayList;
+import static bluefridayfx.view.FXHelper.createComboListener;
 
-public class MonthComboBox {
+public class MonthComboBox implements HolidayComboBoxes{
 
     private ComboBox<Months> monthsComboBox;
     private Map<Months, List<Holiday>> monthMap;
@@ -27,50 +25,28 @@ public class MonthComboBox {
     private ListView<Holiday> monthsListView;
     private Text textBox;
 
-
     public MonthComboBox() throws IOException {
         monthMap = getMonthlyHoliday();
         textBox = new Text();
         addDataToList();
         monthCategories = observableArrayList(monthsList);
-        setMonthsComboBox();
-
+        setComboBoxData();
     }
 
-    private void addDataToList()
+    public void addDataToList()
     {
         monthsList = new ArrayList<>();
         for (Map.Entry<Months, List<Holiday>> h : monthMap.entrySet())
             monthsList.add(h.getKey());
     }
 
-    private void setMonthsComboBox() {
+    public void setComboBoxData() {
         monthsListView = new ListView<>();
         monthsComboBox = new ComboBox<>();
         monthsComboBox.setPromptText("--Select Month--");
         monthsComboBox.getItems().clear();
         monthsComboBox.getItems().addAll(sortMonths());
-        createMonthListener();
-    }
-
-    private void createMonthListener() {
-        monthsComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
-                Months monthName = monthsComboBox.getSelectionModel().getSelectedItem();
-                ObservableList<Holiday> listOfMonthlyHoliday = observableArrayList(monthMap.get(monthName));
-                monthsListView.setCellFactory(TextFieldListCell.forListView(new Holiday.HolidayStringConverter()));
-                monthsListView.setItems(listOfMonthlyHoliday);
-                createListListener();
-        });
-    }
-    private void createListListener()
-    {
-        monthsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                if(newValue != null) {
-                    String text = newValue.getName() + " is on " + newValue.getDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG)) + " which falls on " + newValue.getDay();
-                    textBox.setText(text);
-                    textBox.setVisible(true);
-                }
-        });
+        createComboListener(monthsComboBox,monthsListView,monthMap, textBox);
     }
 
     private ObservableList<Months> sortMonths()

@@ -1,8 +1,5 @@
 import bluefridayfx.models.Holiday;
-import bluefridayfx.view.CategoriesRadioButtons;
-import bluefridayfx.view.DaysComboBox;
-import bluefridayfx.view.GraphicRadioButtons;
-import bluefridayfx.view.MonthComboBox;
+import bluefridayfx.view.*;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -27,11 +25,14 @@ public class BlueFridayApplication extends Application {
     private HBox hBox, gHBox;
     private VBox vBox,gVBox;
     private Button switchingButton;
-    private Scene firstScene, secondScene;
+    private Scene firstScene, secondScene, errorScene;
     private Stage window;
     private GraphicRadioButtons grb;
     private CategoriesRadioButtons rb;
     private Label gMessage;
+    private Text errorTextBox;
+    private QueryRadioButtons query;
+    private Text textView;
 
     public BlueFridayApplication()
     {
@@ -53,15 +54,34 @@ public class BlueFridayApplication extends Application {
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            exceptionScene(window);
         }
     }
 
+    private void exceptionScene(Stage stage) {
+        window = stage;
+        setErrorScene();
+        window.setScene(errorScene);
+        window.setTitle("Error Occurred");
+        window.show();
+    }
+
+    private void setErrorScene()
+    {
+        errorTextBox = new Text("Unable to display data. \n Check your internet connection " +
+                "\n Close this window and \n Re-run the application");
+        errorTextBox.setFill(Color.RED);
+        HBox errorBox = new HBox(errorTextBox);
+        errorBox.setPadding(new Insets(10,10,10,10));
+        errorScene = new Scene(errorBox,300,100);
+    }
+
     private void setFirstScene() throws IOException {
+        textView = new Text();
         initializeFirstSceneVariables();
         hBox = rb.getCategoriesHBox();
         vBox.getChildren().addAll(hBox, pane);
-        firstScene = new Scene(vBox, 700, 525);
+        firstScene = new Scene(vBox, 800, 555);
     }
 
 
@@ -88,12 +108,20 @@ public class BlueFridayApplication extends Application {
             {
                 setUpMonthBorderPane(pane);
             }
+            else if(newValue.equals(rb.getRb3()))
+            {
+                try {
+                    setQueryData(pane);
+                } catch (IOException e) {
+                    exceptionScene(window);
+                }
+            }
             else
             {
                 try {
                     setSecondScene();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    exceptionScene(window);
                 }
             }
         }
@@ -103,7 +131,7 @@ public class BlueFridayApplication extends Application {
     {
         ComboBox<?> daysComboBox = daysCombo.getDaysComboBox();
         ListView<Holiday> listView = daysCombo.getDaysListView();
-        Text textView = daysCombo.getTextBox();
+        textView = daysCombo.getTextBox();
         designPane(pane,listView,textView,daysComboBox);
     }
 
@@ -111,8 +139,19 @@ public class BlueFridayApplication extends Application {
     {
         ComboBox<?> monthsComboBox = monthCombo.getMonthsComboBox();
         ListView<Holiday> listView = monthCombo.getMonthsListView();
-        Text textView = monthCombo.getTextBox();
+        textView = monthCombo.getTextBox();
         designPane(pane,listView,textView,monthsComboBox);
+    }
+
+    private void setQueryData(BorderPane pane) throws IOException {
+        textView.setText("");
+        query = new QueryRadioButtons();
+        pane.setTop(query.getOptionsBox());
+        HBox displayBox = query.getDisplayBox();
+        displayBox.setAlignment(Pos.CENTER);
+        displayBox.setPadding(new Insets(20,20,20,20));
+        pane.setCenter(displayBox);
+
     }
 
     private void designPane(BorderPane pane, ListView<Holiday> listView, Text textView, ComboBox<?> comboBoxView)
@@ -134,7 +173,7 @@ public class BlueFridayApplication extends Application {
             rb.getRb2().setSelected(true);
         });
         designGPane();
-        secondScene = new Scene(gPane,900,525);
+        secondScene = new Scene(gPane,900,555);
         window.setScene(secondScene);
     }
 

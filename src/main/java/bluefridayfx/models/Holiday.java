@@ -8,13 +8,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static bluefridayfx.models.ConvertToCollections.getHoliday;
+import static bluefridayfx.models.ConvertToCollectionsForHolidayData.getHoliday;
 
 public class Holiday {
     private LocalDate date;
     private String name;
     private String day;
-    private String type;
 
     public Holiday(LocalDate date, String name, String day) {
         this.date = date;

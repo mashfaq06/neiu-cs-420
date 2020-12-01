@@ -1,4 +1,4 @@
-package api;
+package bluefridayfx.api;
 
 import javax.ws.rs.HttpMethod;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class DataAPI {
     }
 
     public InputStream makeConnection() throws IOException {
-        getHolidayURL();
+        getHolidayURL(this.country, this.year);
         getResponse(this.url);
         if(connection.getResponseCode() == 200) {
             return connection.getInputStream();
@@ -31,10 +31,10 @@ public class DataAPI {
             throw new IOException();
     }
 
-    private void getHolidayURL()
+    private void getHolidayURL(String country, int year)
     {
         try {
-            this.urlString += "holidays?key=" + System.getenv("API_KEY") + "&country=" + this.country + "&year=" + this.year;
+            this.urlString += "holidays?key=" + System.getenv("API_KEY") + "&country=" + country + "&year=" + year;
             this.url = new URL(urlString);
         }catch (MalformedURLException e){
             System.out.println(e.toString());

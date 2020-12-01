@@ -1,0 +1,15 @@
+AE,United Arab Emirates
+AU,Australia
+CA,Canada
+CN,China
+GB,United Kingdom
+IN,India
+IQ,Iraq
+KW,Kuwait
+MX,Mexico
+MY,Malaysia
+PS,Palestine
+SA,Saudi Arabia
+TR,Turkey
+US,United States
+ZA,South Africa

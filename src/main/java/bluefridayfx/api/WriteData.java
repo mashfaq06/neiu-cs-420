@@ -1,49 +1,39 @@
-package api;
+package bluefridayfx.api;
 
-import netscape.javascript.JSObject;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class WriteData extends CreatePath {
+public class WriteData extends CreateFileFromAPI {
     private final BufferedWriter bw;
     private InputStream is;
-    private String fileName;
-    private Path path;
+    private String country;
 
-    public WriteData (String fileName,InputStream is) throws IOException, URISyntaxException {
-        this.fileName = fileName;
-        this.is = is;
-        this.bw = createBufferedWriter();
-    }
-
-    public WriteData(String fileName,InputStream is, Path path) throws IOException {
-        this.fileName = fileName;
-        this.path = path;
+    public WriteData(InputStream is, Path path) throws IOException {
         this.is = is;
         this.bw = createBufferedWriter(path);
     }
 
+    public WriteData(InputStream is, Path path, String country) throws IOException {
+        this.is = is;
+        this.country = country;
+        this.bw = createBufferedWriter(path);
+
+    }
+
     private BufferedWriter createBufferedWriter(Path path) throws IOException {
-        BufferedWriter bw = Files.newBufferedWriter(path);
+        BufferedWriter bw = Files.newBufferedWriter(path, StandardOpenOption.CREATE ,StandardOpenOption.APPEND);
         return bw;
     }
 
-    private BufferedWriter createBufferedWriter() throws IOException, URISyntaxException {
-        super.setPath(fileName);
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(super.getPath())));
-        return bw;
-    }
-
-    private List<JSONObject> obtainData (InputStream is) throws IOException {
+    private List<JSONObject> obtainData (InputStream is) {
         final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
         Stream<String> lines = bufferedReader.lines();
         return lines.map(line -> new JSONObject(line).getJSONArray("holidays"))
@@ -71,6 +61,24 @@ public class WriteData extends CreatePath {
         for (int i = 0; i < name.stream().count(); i++) {
             bw.write(date.get(i) + " " + name.get(i) + ":" + day.get(i) + "\n");
         }
+    }
+
+    public void exportCountriesData() throws IOException {
+        obtainCountriesData(this.is);
+        bw.flush();
+        bw.close();
+    }
+
+    private void obtainCountriesData (InputStream is) {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
+        Stream<String> lines = bufferedReader.lines();
+        lines.map(line -> new JSONObject(line).getJSONArray("holidays")).forEach(jsonArray -> {
+            try {
+                bw.write(country + "," +jsonArray.length() + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 }

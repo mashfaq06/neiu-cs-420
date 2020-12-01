@@ -23,11 +23,14 @@ public class GraphicRadioButtons {
     private BarChart<String,Number> chart;
     private final HolidayPieChart chartData;
     private final HolidayBarChart barChartData;
+    private final CountriesPieChart countriesPieChart;
+
 
 
     public GraphicRadioButtons() throws IOException {
         chartData = new HolidayPieChart();
         barChartData = new HolidayBarChart();
+        countriesPieChart = new CountriesPieChart();
         tg = new ToggleGroup();
         initializeRadioButton();
         setGraphicRadioButtonHBox();
@@ -71,8 +74,8 @@ public class GraphicRadioButtons {
 
     private void initializeRadioButton()
     {
-        grb1 = new RadioButton("Holiday distribution by Day");
-        grb2 = new RadioButton("Holiday distribution by Month");
+        grb1 = new RadioButton("Holiday distribution by Countries");
+        grb2 = new RadioButton("Holiday distribution by Month in US");
         grb3 = new RadioButton("Comparing holidays between Weekends and Weekdays");
         grb1.setToggleGroup(tg);
         grb2.setToggleGroup(tg);
@@ -97,7 +100,7 @@ public class GraphicRadioButtons {
 
     private void getDayPieChart()
     {
-        dayPieChart = chartData.getDayPieChart();
+        dayPieChart = countriesPieChart.getCountryPieChart();
     }
 
     private void getMonthPieChart()
