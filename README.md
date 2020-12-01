@@ -2,9 +2,9 @@
 
 ## Objective
 The objective of this project is to find what days are the best to offer promotions. Promotions and sales are the best way to attract customers. Customers usually shop when there are holidays. Therefore, the best time to attract customers is to have promotions around holidays. This project will inform us about the holidays and when is the best time to keep the promotions. This application will answer the following questions:  
-1. How many long weekends are happening during the year 2019. 
-2. Which country has the most holidays in the year 2019. 
-3. Which month has the most holidays in the year 2019. 
+1.	Which country had the most holidays in 2019?
+2.	Which month had the most holidays in 2019?
+3.	How many long weekends occurred during 2019?
 
 The API I will be using for this project is from **https://holidayapi.com/**.
 
