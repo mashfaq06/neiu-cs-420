@@ -173,7 +173,7 @@ public class BlueFridayApplication extends Application {
             rb.getRb2().setSelected(true);
         });
         designGPane();
-        secondScene = new Scene(gPane,900,555);
+        secondScene = new Scene(gPane,1100,555);
         window.setScene(secondScene);
     }
 
