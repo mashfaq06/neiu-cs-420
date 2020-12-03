@@ -44,7 +44,7 @@ public class HolidayBarChart {
     {
         xAxis.setLabel("Months");
         yAxis.setLabel("Number of Days");
-        chart.setTitle("Comparison of weekends and weekday holidays every month");
+        chart.setTitle("Comparison of weekends, weekday and long weekends every month");
         firstSeries = new XYChart.Series<>();
         firstSeries.setName("Weekends");
         secondSeries = new XYChart.Series<>();

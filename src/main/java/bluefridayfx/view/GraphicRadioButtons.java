@@ -76,7 +76,7 @@ public class GraphicRadioButtons {
     {
         grb1 = new RadioButton("Holiday distribution by Countries");
         grb2 = new RadioButton("Holiday distribution by Month in US");
-        grb3 = new RadioButton("Comparing holidays between Weekends and Weekdays and Long Weekends");
+        grb3 = new RadioButton("Comparing holidays between Weekends, Weekdays and Long Weekends");
         grb1.setToggleGroup(tg);
         grb2.setToggleGroup(tg);
         grb3.setToggleGroup(tg);
